@@ -43,7 +43,7 @@ public class Main {
             ScheduleExpression se = new ScheduleExpression();
             se.hour("*").minute("0/1").second("0/1");
             
-            timerService.createCalendarTimer(se, new TimerConfig("ARD-ZDF-Box Cleanup Service scheduled at ", false));
+            timerService.createCalendarTimer(se, new TimerConfig("Cleanup Service scheduled at ", false));
     	}
     	catch(Exception _ex) {
     		
