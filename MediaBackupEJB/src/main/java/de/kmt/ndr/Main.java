@@ -20,7 +20,9 @@ public class Main {
 	private TimerService timerService;
 
 	private void _setUP() {
-
+		System.out.println("Read ini file");
+		Config.readini();
+		
 	}
 
 	// ***********************************************************************************
@@ -29,10 +31,9 @@ public class Main {
 	@Timeout
 	public void scheduler(Timer timer) {
 		try {
-			_setUP();
 			System.out.println("Timer fired.");
 		} catch (Exception _ex) {
-
+			_ex.printStackTrace();
 		}
 	}
 
@@ -43,12 +44,17 @@ public class Main {
 	public void initialize() {
 		try {
 			_setUP();
+			System.out.println("initialize application");
 			ScheduleExpression se = new ScheduleExpression();
-			se.hour("*").minute("0/1").second("0/1");
-
-			timerService.createCalendarTimer(se, new TimerConfig("Cleanup Service scheduled at ", false));
+			
+			if (!Config.hours.equals("")) se = se.hour(Config.hours);
+			if (!Config.minutes.equals("")) se = se.minute(Config.minutes);
+			if (!Config.seconds.equals("")) se = se.second(Config.seconds);
+			
+			timerService.createCalendarTimer(se, new TimerConfig("Next Backup Request scheduled at ", false));
 		} catch (Exception _ex) {
 
+			_ex.printStackTrace();
 		}
 	}
 
@@ -59,13 +65,11 @@ public class Main {
 	public void stop() {
 
 		try {
-			_setUP();
 			for (Timer timer : timerService.getTimers()) {
-
 				timer.cancel();
 			}
 		} catch (Exception _ex) {
-
+			_ex.printStackTrace();
 		}
 	}
 
