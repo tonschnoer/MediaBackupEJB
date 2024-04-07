@@ -32,6 +32,8 @@ public class Main {
 	public void scheduler(Timer timer) {
 		try {
 			System.out.println("Timer fired.");
+			_setUP();
+			
 			TCPClient tc = new TCPClient();
 			tc.run();
 			
