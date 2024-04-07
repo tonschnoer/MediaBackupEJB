@@ -19,12 +19,8 @@ public class TCPClient {
 	/** The logger. */
 	protected final Logger logger = LogManager.getLogger();
 	
-	/**
-	 * The main method.
-	 *
-	 * @param args the arguments
-	 */
-	public void main(String[] args) {
+	
+	public void run() {
 		byte[] buffer = new byte[32768];
 
 		try {

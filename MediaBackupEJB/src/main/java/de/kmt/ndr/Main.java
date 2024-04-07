@@ -32,6 +32,9 @@ public class Main {
 	public void scheduler(Timer timer) {
 		try {
 			System.out.println("Timer fired.");
+			TCPClient tc = new TCPClient();
+			tc.run();
+			
 		} catch (Exception _ex) {
 			_ex.printStackTrace();
 		}
