@@ -23,7 +23,7 @@ public class Config {
 			Configurations c = new Configurations();
 			INIConfiguration ic = c.ini("MediaBackup.ini");
 			SubnodeConfiguration general = ic.getSection("general");
-			SubnodeConfiguration files = ic.getSection("file");
+			SubnodeConfiguration files = ic.getSection("files");
 			SubnodeConfiguration schedule = ic.getSection("schedule");
 			
 

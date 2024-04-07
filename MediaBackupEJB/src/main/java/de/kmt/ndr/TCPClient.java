@@ -2,7 +2,6 @@ package de.kmt.ndr;
 
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
@@ -35,6 +34,7 @@ public class TCPClient {
 			while (true) {
 					
 				// request file from server
+				System.out.print("Request " + Config.file);
 				out.write(Config.file);
 				out.flush();
 
