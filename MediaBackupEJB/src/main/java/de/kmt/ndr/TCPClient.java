@@ -20,7 +20,8 @@ public class TCPClient {
 	
 	
 	public void run() {
-		byte[] buffer = new byte[32768];
+		byte[] buffer = new byte[1048576];
+		long bytesread = 0;
 
 		try {
 			
@@ -35,19 +36,22 @@ public class TCPClient {
 					
 				// request file from server
 				System.out.print("Request " + Config.file);
-				out.write(Config.file);
+				out.write("GET |"+Config.file);
 				out.flush();
 
 				while (true) {
 					
-					// read up to 32768 bytes from stream
-					int readbytes = is.read(buffer,0,32768);
-					System.out.print(".");
+					// read up to 1048576 bytes from stream
+					int readbytes = is.read(buffer,0,1048576);
+					bytesread = bytesread + readbytes;
+					
+					System.out.println("Read " + String.valueOf(bytesread) + " bytes");
+					
 
-					// check if 32768 bytes where read (i.e. there are some more)
-					if (readbytes<32768) {
+					// check if 1048576 bytes where read (i.e. there are some more)
+					if (readbytes<1048576) {
 						
-						// less than 32768 bytes are read. Check if last 3 bytes are "END". If so: stop receiving data
+						// less than 1048576 bytes are read. Check if last 3 bytes are "END". If so: stop receiving data
 						if ((buffer[readbytes-3]==0x45) & (buffer[readbytes-2]==0x4e) & (buffer[readbytes-1]==0x44)) {
 							System.out.println("Schluss");
 							
@@ -55,13 +59,14 @@ public class TCPClient {
 							if (readbytes>3) {
 								dos.write(buffer,0,readbytes-3);
 							}
+							// leave while(true) loop
 							break;
 						} else {
-							// if bytesread < 32768, but no ending Tag "END" -> write buffer to file
+							// if bytesread < 1048576, but no ending Tag "END" -> write buffer to file
 							dos.write(buffer,0,readbytes);
 						}
 					} else {
-						// if bytesread = 32768, assume there is more and write buffer to file
+						// if bytesread = 1048576, assume there is more and write buffer to file
 						dos.write(buffer,0,readbytes);
 					}
 				}
